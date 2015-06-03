@@ -65,7 +65,10 @@ public class ContactDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_contact_detail, container, false);
         // Show the dummy content as text in a TextView.
         if (mContact != null) {
-            new GetContactImage().execute();
+            if (!ContactListActivity.mTwoPane) {
+                // if not a tablet, use the small profile image
+                new GetContactImage().execute(mContact.smallImageURL);
+            }
             new GetMoreContactDetails().execute(mContact.detailsURL);
             ((TextView) rootView.findViewById(R.id.name)).setText(mContact.name);
             ((TextView) rootView.findViewById(R.id.company)).setText(mContact.company);
@@ -103,7 +106,7 @@ public class ContactDetailFragment extends Fragment {
         protected Bitmap doInBackground(String... strings) {
             URL myFileUrl;
             try {
-                myFileUrl = new URL(mContact.smallImageURL);
+                myFileUrl = new URL(strings[0]);
                 HttpURLConnection conn;
                 try {
                     conn = (HttpURLConnection) myFileUrl.openConnection();
@@ -180,6 +183,10 @@ public class ContactDetailFragment extends Fragment {
                 ((TextView) getActivity().findViewById(R.id.street)).setText(jsonAddress.getString("street"));
                 ((TextView) getActivity().findViewById(R.id.city_state_and_zipcode)).setText(jsonAddress.getString("city") + ", " + jsonAddress.getString("city") + " " + jsonAddress.getString("zip"));
                 ((TextView) getActivity().findViewById(R.id.country)).setText(jsonAddress.getString("country"));
+                if (ContactListActivity.mTwoPane) {
+                    // if a tablet, use the large image
+                    new GetContactImage().execute(jsonContactDetails.getString("largeImageURL"));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

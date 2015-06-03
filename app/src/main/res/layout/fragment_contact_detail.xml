@@ -13,6 +13,7 @@
 
         <include layout="@layout/picture_name_and_company_info"
                  android:id="@+id/photoNameAndCompanyLayout"
+                 android:layout_alignParentLeft="true"
                  android:layout_width="match_parent"
                  android:layout_height="150dp"
                  android:layout_marginTop="16dp"/>
@@ -24,11 +25,18 @@
                  android:layout_below="@id/photoNameAndCompanyLayout"
                  android:layout_marginTop="16dp"/>
 
+        <include layout="@layout/address_info"
+                 android:id="@+id/addressLayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@id/phoneLayout"
+                 android:layout_marginTop="16dp"/>
+
         <include layout="@layout/birthday_info"
                  android:id="@+id/birthdayLayout"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
-                 android:layout_below="@id/phoneLayout"
+                 android:layout_below="@id/addressLayout"
                  android:layout_marginTop="16dp"/>
 
         <include layout="@layout/email_info"
@@ -36,13 +44,6 @@
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  android:layout_below="@id/birthdayLayout"
-                 android:layout_marginTop="16dp"/>
-
-        <include layout="@layout/address_info"
-                 android:id="@+id/addressLayout"
-                 android:layout_width="match_parent"
-                 android:layout_height="150dp"
-                 android:layout_below="@id/emailLayout"
                  android:layout_marginTop="16dp"/>
     </RelativeLayout>
 

@@ -28,7 +28,7 @@ public class ContactListActivity extends FragmentActivity
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
-    private boolean mTwoPane;
+    public static boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,8 @@ public class ContactListActivity extends FragmentActivity
             ((ContactListFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.contact_list))
                     .setActivateOnItemClick(true);
+        } else {
+            mTwoPane = false;
         }
 
 
