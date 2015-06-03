@@ -18,6 +18,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * A fragment representing a single Contact detail screen.
@@ -71,12 +73,29 @@ public class ContactDetailFragment extends Fragment {
                 ((TextView) rootView.findViewById(R.id.workPhone)).setText(mContact.phone.getString("work"));
                 ((TextView) rootView.findViewById(R.id.homePhone)).setText(mContact.phone.getString("home"));
                 ((TextView) rootView.findViewById(R.id.mobilePhone)).setText(mContact.phone.getString("mobile"));
-                ((TextView) rootView.findViewById(R.id.birthday)).setText(mContact.birthDate);
+                ((TextView) rootView.findViewById(R.id.birthday)).setText(getDate(Integer.parseInt(mContact.birthDate), "MMMM dd, yyyy"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         return rootView;
+    }
+
+    /**
+     * Return date in specified format.
+     *
+     * @param milliSeconds Date in milliseconds
+     * @param dateFormat   Date format
+     * @return String representing date in specified format
+     */
+    private String getDate(long milliSeconds, String dateFormat) {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
     }
 
     class GetContactImage extends AsyncTask<String, Void, Bitmap> {
@@ -165,5 +184,6 @@ public class ContactDetailFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+
     }
 }
