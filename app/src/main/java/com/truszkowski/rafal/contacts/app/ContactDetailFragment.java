@@ -71,6 +71,7 @@ public class ContactDetailFragment extends Fragment {
                 ((TextView) rootView.findViewById(R.id.workPhone)).setText(mContact.phone.getString("work"));
                 ((TextView) rootView.findViewById(R.id.homePhone)).setText(mContact.phone.getString("home"));
                 ((TextView) rootView.findViewById(R.id.mobilePhone)).setText(mContact.phone.getString("mobile"));
+                ((TextView) rootView.findViewById(R.id.birthday)).setText(mContact.birthDate);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -154,6 +155,15 @@ public class ContactDetailFragment extends Fragment {
         @Override
         protected void onPostExecute(JSONObject jsonContactDetails) {
             super.onPostExecute(jsonContactDetails);
+            try {
+                ((TextView) getActivity().findViewById(R.id.email)).setText(jsonContactDetails.getString("email"));
+                JSONObject jsonAddress = jsonContactDetails.getJSONObject("address");
+                ((TextView) getActivity().findViewById(R.id.street)).setText(jsonAddress.getString("street"));
+                ((TextView) getActivity().findViewById(R.id.city_state_and_zipcode)).setText(jsonAddress.getString("city") + "," + jsonAddress.getString("city") + " " + jsonAddress.getString("zip"));
+                ((TextView) getActivity().findViewById(R.id.country)).setText(jsonAddress.getString("country"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        tools:showIn="@layout/fragment_contact_detail">
+
+    <ImageView
+            android:id="@+id/image"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_profile"
+            android:layout_weight="2"/>
+
+    <RelativeLayout
+            android:id="@+id/nameAndCompanyLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:orientation="vertical"
+            android:layout_weight="3">
+        <View
+                android:id="@+id/top_panel_vertical_center"
+                android:layout_width="0dp"
+                android:layout_centerInParent="true"
+                android:layout_height="16dp"/>
+        <TextView
+                android:id="@+id/name"
+                android:layout_above="@id/top_panel_vertical_center"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_above="@id/name"
+                android:layout_height="20dp"
+                android:gravity="center_vertical"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Name:"/>
+        <TextView
+                android:id="@+id/companyTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="center_vertical"
+                android:layout_below="@id/top_panel_vertical_center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Company:"/>
+        <TextView
+                android:id="@+id/company"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/companyTitle"
+                android:layout_height="30dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,154 +1,49 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                tools:context=".ContactDetailFragment"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical">
-
-    <LinearLayout
-            android:id="@+id/photoNameAndCompanyLayout"
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <RelativeLayout
+            tools:context=".ContactDetailFragment"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="horizontal">
-
-        <ImageView
-                android:id="@+id/image"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:src="@mipmap/ic_profile"
-                android:layout_weight="2"/>
-
-        <LinearLayout
-                android:id="@+id/nameAndCompanyLayout"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:orientation="vertical"
-                android:layout_weight="3">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Name:"
-                    android:layout_weight="1"/>
-            <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:layout_weight="2"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Company:"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"/>
-            <TextView
-                    android:id="@+id/company"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:layout_weight="2"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:id="@+id/phoneLayout"
-            android:layout_below="@id/photoNameAndCompanyLayout"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="vertical">
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Phone:"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"/>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:orientation="horizontal">
-            <TextView
-                    android:id="@+id/workPhone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:layout_weight="5"/>
-            <TextView
-                    android:layout_width="0dp"
-                    android:text="Work"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:layout_weight="1"/>
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:orientation="horizontal">
-            <TextView
-                    android:id="@+id/homePhone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:layout_weight="5"/>
-            <TextView
-                    android:layout_width="0dp"
-                    android:text="Home"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:layout_weight="1"/>
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:orientation="horizontal">
-            <TextView
-                    android:id="@+id/mobilePhone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:layout_weight="5"/>
-            <TextView
-                    android:layout_width="0dp"
-                    android:text="Mobile"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:layout_weight="1"/>
-        </LinearLayout>
-
-
-    </LinearLayout>
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:orientation="vertical">
 
-    </LinearLayout>
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:orientation="vertical">
+        <include layout="@layout/picture_name_and_company_info"
+                 android:id="@+id/photoNameAndCompanyLayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="150dp"
+                 android:layout_marginTop="16dp"/>
 
-    </LinearLayout>
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:orientation="vertical">
+        <include layout="@layout/phone_info"
+                 android:id="@+id/phoneLayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@id/photoNameAndCompanyLayout"
+                 android:layout_marginTop="16dp"/>
 
-    </LinearLayout>
+        <include layout="@layout/birthday_info"
+                 android:id="@+id/birthdayLayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@id/phoneLayout"
+                 android:layout_marginTop="16dp"/>
 
+        <include layout="@layout/email_info"
+                 android:id="@+id/emailLayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@id/birthdayLayout"
+                 android:layout_marginTop="16dp"/>
 
-</RelativeLayout>
+        <include layout="@layout/address_info"
+                 android:id="@+id/addressLayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="150dp"
+                 android:layout_below="@id/emailLayout"
+                 android:layout_marginTop="16dp"/>
+    </RelativeLayout>
+
+</ScrollView>
