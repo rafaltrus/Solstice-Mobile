@@ -2,8 +2,10 @@ package com.truszkowski.rafal.contacts.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 
@@ -17,6 +19,8 @@ import android.view.MenuItem;
  * more than a {@link ContactDetailFragment}.
  */
 public class ContactDetailActivity extends ActionBarActivity {
+
+    private boolean isStarMenuChecked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +66,33 @@ public class ContactDetailActivity extends ActionBarActivity {
             //
             NavUtils.navigateUpTo(this, new Intent(this, ContactListActivity.class));
             return true;
+        } else if (id == R.id.favorite) {
+            isStarMenuChecked = !item.isChecked();
+            if (isStarMenuChecked) {
+                item.setIcon(getResources().getDrawable(R.mipmap.btn_rating_star_off_normal_holo_light));
+            } else {
+                item.setIcon(getResources().getDrawable(R.mipmap.btn_rating_star_off_pressed));
+            }
+            item.setChecked(isStarMenuChecked);
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem checkable = menu.findItem(R.id.favorite);
+        checkable.setChecked(isStarMenuChecked);
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+
+        inflater.inflate(R.menu.contact_details_menu, menu);
+
+        return true;
     }
 }

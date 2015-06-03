@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -183,6 +184,11 @@ public class ContactDetailFragment extends Fragment {
                 ((TextView) getActivity().findViewById(R.id.street)).setText(jsonAddress.getString("street"));
                 ((TextView) getActivity().findViewById(R.id.city_state_and_zipcode)).setText(jsonAddress.getString("city") + ", " + jsonAddress.getString("city") + " " + jsonAddress.getString("zip"));
                 ((TextView) getActivity().findViewById(R.id.country)).setText(jsonAddress.getString("country"));
+                if (Boolean.parseBoolean(jsonAddress.getString("favorite"))) {
+                    ((MenuItem) getActivity().findViewById(R.id.favorite)).setIcon(getResources().getDrawable(R.mipmap.btn_rating_star_off_normal_holo_light));
+                } else {
+                    ((MenuItem) getActivity().findViewById(R.id.favorite)).setIcon(getResources().getDrawable(R.mipmap.btn_rating_star_off_pressed));
+                }
                 if (ContactListActivity.mTwoPane) {
                     // if a tablet, use the large image
                     new GetContactImage().execute(jsonContactDetails.getString("largeImageURL"));
