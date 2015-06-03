@@ -2,11 +2,12 @@ package com.truszkowski.rafal.contacts.app;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -66,10 +67,6 @@ public class ContactDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_contact_detail, container, false);
         // Show the dummy content as text in a TextView.
         if (mContact != null) {
-            if (!ContactListActivity.mTwoPane) {
-                // if not a tablet, use the small profile image
-                new GetContactImage().execute(mContact.smallImageURL);
-            }
             new GetMoreContactDetails().execute(mContact.detailsURL);
             ((TextView) rootView.findViewById(R.id.name)).setText(mContact.name);
             ((TextView) rootView.findViewById(R.id.company)).setText(mContact.company);
@@ -184,15 +181,28 @@ public class ContactDetailFragment extends Fragment {
                 ((TextView) getActivity().findViewById(R.id.street)).setText(jsonAddress.getString("street"));
                 ((TextView) getActivity().findViewById(R.id.city_state_and_zipcode)).setText(jsonAddress.getString("city") + ", " + jsonAddress.getString("city") + " " + jsonAddress.getString("zip"));
                 ((TextView) getActivity().findViewById(R.id.country)).setText(jsonAddress.getString("country"));
-                if (Boolean.parseBoolean(jsonAddress.getString("favorite"))) {
-                    ((MenuItem) getActivity().findViewById(R.id.favorite)).setIcon(getResources().getDrawable(R.mipmap.btn_rating_star_off_normal_holo_light));
+
+                // Resources.getDrawable(int) is deprecated in API 22. The most reliable way to obtain drawables is now Context.getDrawable(int).
+                Drawable icon;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    if (jsonContactDetails.getBoolean("favorite")) {
+                        icon = getResources().getDrawable(R.mipmap.star_pressed);
+                    } else {
+                        icon = getResources().getDrawable(R.mipmap.star_normal);
+                    }
                 } else {
-                    ((MenuItem) getActivity().findViewById(R.id.favorite)).setIcon(getResources().getDrawable(R.mipmap.btn_rating_star_off_pressed));
+                    if (jsonContactDetails.getBoolean("favorite")) {
+                        icon = getActivity().getDrawable(R.mipmap.star_pressed);
+                    } else {
+                        icon = getActivity().getDrawable(R.mipmap.star_normal);
+                    }
                 }
-                if (ContactListActivity.mTwoPane) {
-                    // if a tablet, use the large image
-                    new GetContactImage().execute(jsonContactDetails.getString("largeImageURL"));
-                }
+
+                ((ContactDetailActivity) getActivity()).menu.findItem(R.id.favorite).setIcon(icon);
+
+
+                new GetContactImage().execute(jsonContactDetails.getString("largeImageURL"));
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

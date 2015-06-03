@@ -1,6 +1,8 @@
 package com.truszkowski.rafal.contacts.app;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
@@ -20,6 +22,7 @@ import android.view.MenuItem;
  */
 public class ContactDetailActivity extends ActionBarActivity {
 
+    public Menu menu;
     private boolean isStarMenuChecked = false;
 
     @Override
@@ -68,11 +71,24 @@ public class ContactDetailActivity extends ActionBarActivity {
             return true;
         } else if (id == R.id.favorite) {
             isStarMenuChecked = !item.isChecked();
-            if (isStarMenuChecked) {
-                item.setIcon(getResources().getDrawable(R.mipmap.btn_rating_star_off_normal_holo_light));
+            // Resources.getDrawable(int) is deprecated in API 22. The most reliable way to obtain drawables is now Context.getDrawable(int).
+            Drawable icon;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+                if (isStarMenuChecked) {
+                    icon = getResources().getDrawable(R.mipmap.star_pressed);
+                } else {
+                    icon = getResources().getDrawable(R.mipmap.star_normal);
+                }
             } else {
-                item.setIcon(getResources().getDrawable(R.mipmap.btn_rating_star_off_pressed));
+                if (isStarMenuChecked) {
+                    icon = this.getDrawable(R.mipmap.star_pressed);
+                } else {
+                    icon = this.getDrawable(R.mipmap.star_normal);
+                }
             }
+
+            item.setIcon(icon);
+
             item.setChecked(isStarMenuChecked);
             return true;
         }
@@ -90,9 +106,8 @@ public class ContactDetailActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-
+        this.menu = menu;
         inflater.inflate(R.menu.contact_details_menu, menu);
-
         return true;
     }
 }
