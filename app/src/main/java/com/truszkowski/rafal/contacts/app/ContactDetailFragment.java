@@ -159,7 +159,7 @@ public class ContactDetailFragment extends Fragment {
                 ((TextView) getActivity().findViewById(R.id.email)).setText(jsonContactDetails.getString("email"));
                 JSONObject jsonAddress = jsonContactDetails.getJSONObject("address");
                 ((TextView) getActivity().findViewById(R.id.street)).setText(jsonAddress.getString("street"));
-                ((TextView) getActivity().findViewById(R.id.city_state_and_zipcode)).setText(jsonAddress.getString("city") + "," + jsonAddress.getString("city") + " " + jsonAddress.getString("zip"));
+                ((TextView) getActivity().findViewById(R.id.city_state_and_zipcode)).setText(jsonAddress.getString("city") + ", " + jsonAddress.getString("city") + " " + jsonAddress.getString("zip"));
                 ((TextView) getActivity().findViewById(R.id.country)).setText(jsonAddress.getString("country"));
             } catch (JSONException e) {
                 e.printStackTrace();
