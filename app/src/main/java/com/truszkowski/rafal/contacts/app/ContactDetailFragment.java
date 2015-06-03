@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.json.JSONArray;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,11 +58,18 @@ public class ContactDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_contact_detail, container, false);
-
         // Show the dummy content as text in a TextView.
         if (mContact != null) {
+            new GetContactImage().execute();
+            ((TextView) rootView.findViewById(R.id.name)).setText(mContact.name);
+            ((TextView) rootView.findViewById(R.id.company)).setText(mContact.company);
+        }
+        return rootView;
+    }
 
-            //TODO: cannot parse the image on main thread! use asynctask
+    class GetContactImage extends AsyncTask<String, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... strings) {
             URL myFileUrl;
             try {
                 myFileUrl = new URL(mContact.smallImageURL);
@@ -74,30 +80,22 @@ public class ContactDetailFragment extends Fragment {
                     conn.connect();
 
                     InputStream is = conn.getInputStream();
-                    ((ImageView) rootView.findViewById(R.id.image)).setImageBitmap(BitmapFactory.decodeStream(is));
+                    return BitmapFactory.decodeStream(is);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-
-        }
-
-        return rootView;
-    }
-
-    class ContactImage extends AsyncTask<String, Void, Bitmap> {
-
-
-        @Override
-        protected Bitmap doInBackground(String... strings) {
             return null;
         }
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
+            if (bitmap != null) {
+                ((ImageView) getActivity().findViewById(R.id.image)).setImageBitmap(bitmap);
+            }
         }
     }
 }
