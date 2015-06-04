@@ -6,7 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,20 +23,21 @@ import android.widget.Toast;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link ContactDetailFragment}.
  */
-public class ContactDetailActivity extends ActionBarActivity {
+public class ContactDetailActivity extends AppCompatActivity {
 
     public Menu menu;
     private boolean isStarMenuChecked = false;
-    private boolean isCurrentlyEdittingDetails = false;
+    private boolean isCurrentlyEditingDetails = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_detail);
 
-        // Show the Up button in the action bar.
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
         // (e.g. when rotating the screen from portrait to landscape).
@@ -95,10 +97,10 @@ public class ContactDetailActivity extends ActionBarActivity {
             item.setChecked(isStarMenuChecked);
             return true;
         } else if (id == R.id.edit) {
-            isCurrentlyEdittingDetails = !item.isChecked();
+            isCurrentlyEditingDetails = !item.isChecked();
             Drawable icon;
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
-                if (isCurrentlyEdittingDetails) {
+                if (isCurrentlyEditingDetails) {
                     icon = getResources().getDrawable(R.mipmap.ic_save);
                     enableEditTextFields(true);
                     Toast.makeText(getApplicationContext(), "After you edit the information, click the check mark to save.",
@@ -108,7 +110,7 @@ public class ContactDetailActivity extends ActionBarActivity {
                     enableEditTextFields(false);
                 }
             } else {
-                if (isCurrentlyEdittingDetails) {
+                if (isCurrentlyEditingDetails) {
                     icon = this.getDrawable(R.mipmap.ic_save);
                     enableEditTextFields(true);
                     Toast.makeText(getApplicationContext(), "After you edit the information, click the check mark to save.",
@@ -120,7 +122,7 @@ public class ContactDetailActivity extends ActionBarActivity {
             }
 
             item.setIcon(icon);
-            item.setChecked(isCurrentlyEdittingDetails);
+            item.setChecked(isCurrentlyEditingDetails);
         }
 
         return super.onOptionsItemSelected(item);

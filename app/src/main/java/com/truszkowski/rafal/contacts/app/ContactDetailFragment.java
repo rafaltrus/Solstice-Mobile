@@ -65,8 +65,9 @@ public class ContactDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_contact_detail, container, false);
-        ((ContactDetailActivity) getActivity()).getSupportActionBar().hide();
         rootView.findViewById(R.id.contactDetails).setVisibility(View.GONE);
+
+
         // Show the dummy content as text in a TextView.
         new GetContactImage().execute(mContact.smallImageURL);
         if (mContact != null) {
