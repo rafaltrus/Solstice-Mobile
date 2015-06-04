@@ -1,50 +1,65 @@
 <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <RelativeLayout
             tools:context=".ContactDetailFragment"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:orientation="vertical">
+            android:layout_marginBottom="16dp">
 
-        <include layout="@layout/picture_name_and_company_info"
-                 android:id="@+id/photoNameAndCompanyLayout"
-                 android:layout_alignParentLeft="true"
-                 android:layout_width="match_parent"
-                 android:layout_height="150dp"
-                 android:layout_marginTop="16dp"/>
+        <RelativeLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/contactDetails">
 
-        <include layout="@layout/phone_info"
-                 android:id="@+id/phoneLayout"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_below="@id/photoNameAndCompanyLayout"
-                 android:layout_marginTop="16dp"/>
+            <include layout="@layout/picture_name_and_company_info"
+                     android:id="@+id/photoNameAndCompanyLayout"
+                     android:layout_alignParentLeft="true"
+                     android:layout_alignParentStart="true"
+                     android:layout_width="match_parent"
+                     android:layout_height="150dp"
+                     android:layout_marginTop="16dp"/>
 
-        <include layout="@layout/address_info"
-                 android:id="@+id/addressLayout"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_below="@id/phoneLayout"
-                 android:layout_marginTop="16dp"/>
+            <include layout="@layout/phone_info"
+                     android:id="@+id/phoneLayout"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@id/photoNameAndCompanyLayout"
+                     android:layout_marginTop="16dp"/>
 
-        <include layout="@layout/birthday_info"
-                 android:id="@+id/birthdayLayout"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_below="@id/addressLayout"
-                 android:layout_marginTop="16dp"/>
+            <include layout="@layout/address_info"
+                     android:id="@+id/addressLayout"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@id/phoneLayout"
+                     android:layout_marginTop="16dp"/>
 
-        <include layout="@layout/email_info"
-                 android:id="@+id/emailLayout"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_below="@id/birthdayLayout"
-                 android:layout_marginTop="16dp"/>
+            <include layout="@layout/birthday_info"
+                     android:id="@+id/birthdayLayout"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@id/addressLayout"
+                     android:layout_marginTop="16dp"/>
+
+            <include layout="@layout/email_info"
+                     android:id="@+id/emailLayout"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@id/birthdayLayout"
+                     android:layout_marginTop="16dp"/>
+
+        </RelativeLayout>
+        <ProgressBar
+                android:indeterminate="true"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"/>
     </RelativeLayout>
 
 </ScrollView>

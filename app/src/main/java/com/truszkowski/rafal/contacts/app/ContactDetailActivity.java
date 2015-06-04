@@ -1,6 +1,7 @@
 package com.truszkowski.rafal.contacts.app;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 /**
@@ -24,6 +26,7 @@ public class ContactDetailActivity extends ActionBarActivity {
 
     public Menu menu;
     private boolean isStarMenuChecked = false;
+    private boolean isCurrentlyEdittingDetails = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,15 +78,15 @@ public class ContactDetailActivity extends ActionBarActivity {
             Drawable icon;
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
                 if (isStarMenuChecked) {
-                    icon = getResources().getDrawable(R.mipmap.star_pressed);
+                    icon = getResources().getDrawable(R.mipmap.ic_star_pressed);
                 } else {
-                    icon = getResources().getDrawable(R.mipmap.star_normal);
+                    icon = getResources().getDrawable(R.mipmap.ic_star_normal);
                 }
             } else {
                 if (isStarMenuChecked) {
-                    icon = this.getDrawable(R.mipmap.star_pressed);
+                    icon = this.getDrawable(R.mipmap.ic_star_pressed);
                 } else {
-                    icon = this.getDrawable(R.mipmap.star_normal);
+                    icon = this.getDrawable(R.mipmap.ic_star_normal);
                 }
             }
 
@@ -91,8 +94,73 @@ public class ContactDetailActivity extends ActionBarActivity {
 
             item.setChecked(isStarMenuChecked);
             return true;
+        } else if (id == R.id.edit) {
+            isCurrentlyEdittingDetails = !item.isChecked();
+            Drawable icon;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+                if (isCurrentlyEdittingDetails) {
+                    icon = getResources().getDrawable(R.mipmap.ic_save);
+                    enableEditTextFields(true);
+                    Toast.makeText(getApplicationContext(), "After you edit the information, click the check mark to save.",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    icon = getResources().getDrawable(R.mipmap.ic_menu_edit);
+                    enableEditTextFields(false);
+                }
+            } else {
+                if (isCurrentlyEdittingDetails) {
+                    icon = this.getDrawable(R.mipmap.ic_save);
+                    enableEditTextFields(true);
+                    Toast.makeText(getApplicationContext(), "After you edit the information, click the check mark to save.",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    icon = this.getDrawable(R.mipmap.ic_menu_edit);
+                    enableEditTextFields(false);
+                }
+            }
+
+            item.setIcon(icon);
+            item.setChecked(isCurrentlyEdittingDetails);
         }
+
         return super.onOptionsItemSelected(item);
+
+    }
+
+    private void enableEditTextFields(boolean enableFields) {
+        findViewById(R.id.name).setEnabled(enableFields);
+        findViewById(R.id.company).setEnabled(enableFields);
+        findViewById(R.id.homePhone).setEnabled(enableFields);
+        findViewById(R.id.workPhone).setEnabled(enableFields);
+        findViewById(R.id.mobilePhone).setEnabled(enableFields);
+        findViewById(R.id.street).setEnabled(enableFields);
+        findViewById(R.id.city_state_and_zipcode).setEnabled(enableFields);
+        findViewById(R.id.country).setEnabled(enableFields);
+        findViewById(R.id.email).setEnabled(enableFields);
+        findViewById(R.id.birthday).setEnabled(enableFields);
+        if (enableFields) {
+            findViewById(R.id.name).setBackgroundColor(Color.parseColor("#D6D6D6"));
+            findViewById(R.id.company).setBackgroundColor(Color.parseColor("#D6D6D6"));
+            findViewById(R.id.homePhone).setBackgroundColor(Color.parseColor("#D6D6D6"));
+            findViewById(R.id.workPhone).setBackgroundColor(Color.parseColor("#D6D6D6"));
+            findViewById(R.id.mobilePhone).setBackgroundColor(Color.parseColor("#D6D6D6"));
+            findViewById(R.id.street).setBackgroundColor(Color.parseColor("#D6D6D6"));
+            findViewById(R.id.city_state_and_zipcode).setBackgroundColor(Color.parseColor("#D6D6D6"));
+            findViewById(R.id.country).setBackgroundColor(Color.parseColor("#D6D6D6"));
+            findViewById(R.id.email).setBackgroundColor(Color.parseColor("#D6D6D6"));
+            findViewById(R.id.birthday).setBackgroundColor(Color.parseColor("#D6D6D6"));
+        } else {
+            findViewById(R.id.name).setBackgroundColor(0);
+            findViewById(R.id.company).setBackgroundColor(0);
+            findViewById(R.id.homePhone).setBackgroundColor(0);
+            findViewById(R.id.workPhone).setBackgroundColor(0);
+            findViewById(R.id.mobilePhone).setBackgroundColor(0);
+            findViewById(R.id.street).setBackgroundColor(0);
+            findViewById(R.id.city_state_and_zipcode).setBackgroundColor(0);
+            findViewById(R.id.country).setBackgroundColor(0);
+            findViewById(R.id.email).setBackgroundColor(0);
+            findViewById(R.id.birthday).setBackgroundColor(0);
+        }
     }
 
 

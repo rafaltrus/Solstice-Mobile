@@ -13,7 +13,8 @@
             android:gravity="center_vertical"
             android:layout_height="match_parent"
             android:src="@mipmap/ic_profile"
-            android:layout_weight="1"/>
+            android:contentDescription="@string/profile_picture_description"
+            android:layout_weight="2"/>
 
     <RelativeLayout
             android:id="@+id/nameAndCompanyLayout"
@@ -21,43 +22,45 @@
             android:layout_height="match_parent"
             android:layout_margin="8dp"
             android:orientation="vertical"
-            android:layout_weight="2">
-        <View
-                android:id="@+id/top_panel_vertical_center"
-                android:layout_width="0dp"
-                android:layout_centerInParent="true"
-                android:layout_height="16dp"/>
+            android:layout_weight="3">
         <TextView
+                android:id="@+id/nameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="center_vertical"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/name_label"/>
+        <EditText
                 android:id="@+id/name"
-                android:layout_above="@id/top_panel_vertical_center"
+                android:layout_below="@id/nameLabel"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
+                android:inputType="text"
                 android:gravity="center_vertical"
-                android:textAppearance="?android:attr/textAppearanceLarge"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_above="@id/name"
-                android:layout_height="20dp"
-                android:gravity="center_vertical"
+                android:enabled="false"
+                android:background="@null"
                 android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Name:"/>
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
         <TextView
-                android:id="@+id/companyTitle"
+                android:id="@+id/companyLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="center_vertical"
-                android:layout_below="@id/top_panel_vertical_center"
+                android:layout_below="@id/name"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Company:"/>
-        <TextView
+                android:text="@string/company_label"/>
+        <EditText
+                android:enabled="false"
                 android:id="@+id/company"
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_below="@id/companyTitle"
-                android:layout_height="30dp"
+                android:layout_below="@id/companyLabel"
+                android:layout_height="50dp"
                 android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceLarge"/>
+                android:inputType="text|textMultiLine"
+                android:maxLines="4"
+                android:background="@null"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     </RelativeLayout>
 

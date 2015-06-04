@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">Contacts</string>
     <string name="title_contact_detail">Contact Detail</string>
+    <string name="work">Work</string>
+    <string name="email_label">E-mail:</string>
+    <string name="birthday_label">Birthday:</string>
+    <string name="address">Address:</string>
+    <string name="mobile_phone">Mobile</string>
+    <string name="home_phone">Home</string>
+    <string name="work_phone">Work</string>
+    <string name="phone_label">Phone:</string>
+    <string name="company_label">Company:</string>
+    <string name="name_label">Name:</string>
+    <string name="profile_picture_description">profile picture</string>
 </resources>

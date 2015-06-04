@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.json.JSONException;
@@ -52,7 +53,6 @@ public class ContactDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments().containsKey(CONTACT_NAME)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
@@ -65,11 +65,14 @@ public class ContactDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_contact_detail, container, false);
+        ((ContactDetailActivity) getActivity()).getSupportActionBar().hide();
+        rootView.findViewById(R.id.contactDetails).setVisibility(View.GONE);
         // Show the dummy content as text in a TextView.
+        new GetContactImage().execute(mContact.smallImageURL);
         if (mContact != null) {
-            new GetMoreContactDetails().execute(mContact.detailsURL);
-            ((TextView) rootView.findViewById(R.id.name)).setText(mContact.name);
-            ((TextView) rootView.findViewById(R.id.company)).setText(mContact.company);
+            new GetMoreContactDetails(rootView).execute(mContact.detailsURL);
+            ((EditText) rootView.findViewById(R.id.name)).setText(mContact.name);
+            ((EditText) rootView.findViewById(R.id.company)).setText(mContact.company);
             try {
                 ((TextView) rootView.findViewById(R.id.workPhone)).setText(mContact.phone.getString("work"));
                 ((TextView) rootView.findViewById(R.id.homePhone)).setText(mContact.phone.getString("home"));
@@ -79,6 +82,7 @@ public class ContactDetailFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+        rootView.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
         return rootView;
     }
 
@@ -133,6 +137,12 @@ public class ContactDetailFragment extends Fragment {
 
     class GetMoreContactDetails extends AsyncTask<String, Void, JSONObject> {
 
+        private View rootView;
+
+        public GetMoreContactDetails(View rootView) {
+            this.rootView = rootView;
+        }
+
         @Override
         protected JSONObject doInBackground(String... strings) {
             // AndroidHttpClient class is deprecated in API level 22. It is advised to use URLConnection instead.
@@ -186,22 +196,23 @@ public class ContactDetailFragment extends Fragment {
                 Drawable icon;
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
                     if (jsonContactDetails.getBoolean("favorite")) {
-                        icon = getResources().getDrawable(R.mipmap.star_pressed);
+                        icon = getResources().getDrawable(R.mipmap.ic_star_pressed);
                     } else {
-                        icon = getResources().getDrawable(R.mipmap.star_normal);
+                        icon = getResources().getDrawable(R.mipmap.ic_star_normal);
                     }
                 } else {
                     if (jsonContactDetails.getBoolean("favorite")) {
-                        icon = getActivity().getDrawable(R.mipmap.star_pressed);
+                        icon = getActivity().getDrawable(R.mipmap.ic_star_pressed);
                     } else {
-                        icon = getActivity().getDrawable(R.mipmap.star_normal);
+                        icon = getActivity().getDrawable(R.mipmap.ic_star_normal);
                     }
                 }
 
                 ((ContactDetailActivity) getActivity()).menu.findItem(R.id.favorite).setIcon(icon);
 
-
-                new GetContactImage().execute(jsonContactDetails.getString("largeImageURL"));
+                rootView.findViewById(R.id.progressBar).setVisibility(View.GONE);
+                ((ContactDetailActivity) getActivity()).getSupportActionBar().show();
+                rootView.findViewById(R.id.contactDetails).setVisibility(View.VISIBLE);
 
             } catch (JSONException e) {
                 e.printStackTrace();
