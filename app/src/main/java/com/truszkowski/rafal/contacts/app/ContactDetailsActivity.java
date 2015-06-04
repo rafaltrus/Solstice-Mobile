@@ -17,9 +17,9 @@ import android.widget.Toast;
 /**
  * An activity representing a single Contact detail screen.
  * This activity is mostly just a 'shell' activity containing nothing
- * more than a {@link ContactDetailFragment}.
+ * more than a {@link ContactDetailsFragment}.
  */
-public class ContactDetailActivity extends AppCompatActivity {
+public class ContactDetailsActivity extends AppCompatActivity {
 
     public Menu menu;
     public boolean isStarMenuChecked = false;
@@ -38,9 +38,9 @@ public class ContactDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ContactDetailFragment.CONTACT_NAME,
-                    getIntent().getStringExtra(ContactDetailFragment.CONTACT_NAME));
-            ContactDetailFragment fragment = new ContactDetailFragment();
+            arguments.putString(ContactDetailsFragment.CONTACT_NAME,
+                    getIntent().getStringExtra(ContactDetailsFragment.CONTACT_NAME));
+            ContactDetailsFragment fragment = new ContactDetailsFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.contact_detail_container, fragment)

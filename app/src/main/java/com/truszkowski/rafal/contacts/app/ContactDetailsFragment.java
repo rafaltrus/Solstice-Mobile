@@ -26,9 +26,9 @@ import java.util.Calendar;
 
 /**
  * A fragment representing a single Contact detail screen.
- * This fragment is contained in a {@link ContactDetailActivity}.
+ * This fragment is contained in a {@link ContactDetailsActivity}.
  */
-public class ContactDetailFragment extends Fragment {
+public class ContactDetailsFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -44,7 +44,7 @@ public class ContactDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ContactDetailFragment() {
+    public ContactDetailsFragment() {
     }
 
     @Override
@@ -195,9 +195,9 @@ public class ContactDetailFragment extends Fragment {
                 ((TextView) getActivity().findViewById(R.id.city_state_and_zipcode)).setText(jsonAddress.getString("city") + ", " + jsonAddress.getString("city") + " " + jsonAddress.getString("zip"));
                 ((TextView) getActivity().findViewById(R.id.country)).setText(jsonAddress.getString("country"));
 
-                ((ContactDetailActivity) getActivity()).menu.findItem(R.id.favorite).setIcon(getAppropriateStarIcon(jsonContactDetails));
+                ((ContactDetailsActivity) getActivity()).menu.findItem(R.id.favorite).setIcon(getAppropriateStarIcon(jsonContactDetails));
                 rootView.findViewById(R.id.progressBar).setVisibility(View.GONE);
-                ((ContactDetailActivity) getActivity()).getSupportActionBar().show();
+                ((ContactDetailsActivity) getActivity()).getSupportActionBar().show();
                 rootView.findViewById(R.id.contactDetails).setVisibility(View.VISIBLE);
 
             } catch (JSONException e) {
@@ -211,18 +211,18 @@ public class ContactDetailFragment extends Fragment {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
                 if (jsonContactDetails.getBoolean("favorite")) {
                     icon = getResources().getDrawable(R.mipmap.ic_star_pressed);
-                    ((ContactDetailActivity) getActivity()).isStarMenuChecked = true;
+                    ((ContactDetailsActivity) getActivity()).isStarMenuChecked = true;
                 } else {
                     icon = getResources().getDrawable(R.mipmap.ic_star_normal);
-                    ((ContactDetailActivity) getActivity()).isStarMenuChecked = false;
+                    ((ContactDetailsActivity) getActivity()).isStarMenuChecked = false;
                 }
             } else {
                 if (jsonContactDetails.getBoolean("favorite")) {
                     icon = getActivity().getDrawable(R.mipmap.ic_star_pressed);
-                    ((ContactDetailActivity) getActivity()).isStarMenuChecked = true;
+                    ((ContactDetailsActivity) getActivity()).isStarMenuChecked = true;
                 } else {
                     icon = getActivity().getDrawable(R.mipmap.ic_star_normal);
-                    ((ContactDetailActivity) getActivity()).isStarMenuChecked = false;
+                    ((ContactDetailsActivity) getActivity()).isStarMenuChecked = false;
                 }
             }
             return icon;
