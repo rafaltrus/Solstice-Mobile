@@ -22,7 +22,7 @@ import android.widget.Toast;
 public class ContactDetailActivity extends AppCompatActivity {
 
     public Menu menu;
-    private boolean isStarMenuChecked = false;
+    public boolean isStarMenuChecked = false;
     private boolean isCurrentlyEditingDetails = false;
 
     @Override
@@ -63,15 +63,13 @@ public class ContactDetailActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.favorite) {
             // toggle the icon
-            isStarMenuChecked = !item.isChecked();
+            isStarMenuChecked = !isStarMenuChecked;
             item.setIcon(getAppropriateStarIcon());
-            item.setChecked(isStarMenuChecked);
             return true;
         } else if (id == R.id.edit) {
             // toggle the icon
-            isCurrentlyEditingDetails = !item.isChecked();
+            isCurrentlyEditingDetails = !isCurrentlyEditingDetails;
             item.setIcon(getAppropriateEditIcon());
-            item.setChecked(isCurrentlyEditingDetails);
         }
         return super.onOptionsItemSelected(item);
 

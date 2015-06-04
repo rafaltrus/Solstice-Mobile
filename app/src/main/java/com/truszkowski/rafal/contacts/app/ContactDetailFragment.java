@@ -211,14 +211,18 @@ public class ContactDetailFragment extends Fragment {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
                 if (jsonContactDetails.getBoolean("favorite")) {
                     icon = getResources().getDrawable(R.mipmap.ic_star_pressed);
+                    ((ContactDetailActivity) getActivity()).isStarMenuChecked = true;
                 } else {
                     icon = getResources().getDrawable(R.mipmap.ic_star_normal);
+                    ((ContactDetailActivity) getActivity()).isStarMenuChecked = false;
                 }
             } else {
                 if (jsonContactDetails.getBoolean("favorite")) {
                     icon = getActivity().getDrawable(R.mipmap.ic_star_pressed);
+                    ((ContactDetailActivity) getActivity()).isStarMenuChecked = true;
                 } else {
                     icon = getActivity().getDrawable(R.mipmap.ic_star_normal);
+                    ((ContactDetailActivity) getActivity()).isStarMenuChecked = false;
                 }
             }
             return icon;
