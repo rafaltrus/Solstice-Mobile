@@ -26,9 +26,7 @@ import java.util.Calendar;
 
 /**
  * A fragment representing a single Contact detail screen.
- * This fragment is either contained in a {@link ContactListActivity}
- * in two-pane mode (on tablets) or a {@link ContactDetailActivity}
- * on handsets.
+ * This fragment is contained in a {@link ContactDetailActivity}.
  */
 public class ContactDetailFragment extends Fragment {
     /**
@@ -36,7 +34,6 @@ public class ContactDetailFragment extends Fragment {
      * represents.
      */
     public static final String CONTACT_NAME = "item_id";
-
 
     /**
      * The dummy content this fragment is presenting.
@@ -54,9 +51,6 @@ public class ContactDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments().containsKey(CONTACT_NAME)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
             mContact = ContactList.MAP.get(getArguments().getString(CONTACT_NAME));
         }
     }
@@ -67,9 +61,9 @@ public class ContactDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_contact_detail, container, false);
         rootView.findViewById(R.id.contactDetails).setVisibility(View.GONE);
 
-
-        // Show the dummy content as text in a TextView.
+        // Fetch more contact details
         new GetContactImage().execute(mContact.smallImageURL);
+        // Display the contact data previously fetched
         if (mContact != null) {
             new GetMoreContactDetails(rootView).execute(mContact.detailsURL);
             ((EditText) rootView.findViewById(R.id.name)).setText(mContact.name);
@@ -104,9 +98,14 @@ public class ContactDetailFragment extends Fragment {
         return formatter.format(calendar.getTime());
     }
 
+    /**
+     * This asynchronous task downloads and sets the profile picture for a current contact.
+     */
     class GetContactImage extends AsyncTask<String, Void, Bitmap> {
         @Override
         protected Bitmap doInBackground(String... strings) {
+            // AndroidHttpClient class is deprecated in API level 22. It is advised to use URLConnection instead.
+            // ref: http://developer.android.com/reference/android/net/http/AndroidHttpClient.html
             URL myFileUrl;
             try {
                 myFileUrl = new URL(strings[0]);
@@ -136,6 +135,9 @@ public class ContactDetailFragment extends Fragment {
         }
     }
 
+    /**
+     * This asynchronous task downloads and sets the remaining contact details for a current contact.
+     */
     class GetMoreContactDetails extends AsyncTask<String, Void, JSONObject> {
 
         private View rootView;
@@ -193,24 +195,7 @@ public class ContactDetailFragment extends Fragment {
                 ((TextView) getActivity().findViewById(R.id.city_state_and_zipcode)).setText(jsonAddress.getString("city") + ", " + jsonAddress.getString("city") + " " + jsonAddress.getString("zip"));
                 ((TextView) getActivity().findViewById(R.id.country)).setText(jsonAddress.getString("country"));
 
-                // Resources.getDrawable(int) is deprecated in API 22. The most reliable way to obtain drawables is now Context.getDrawable(int).
-                Drawable icon;
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    if (jsonContactDetails.getBoolean("favorite")) {
-                        icon = getResources().getDrawable(R.mipmap.ic_star_pressed);
-                    } else {
-                        icon = getResources().getDrawable(R.mipmap.ic_star_normal);
-                    }
-                } else {
-                    if (jsonContactDetails.getBoolean("favorite")) {
-                        icon = getActivity().getDrawable(R.mipmap.ic_star_pressed);
-                    } else {
-                        icon = getActivity().getDrawable(R.mipmap.ic_star_normal);
-                    }
-                }
-
-                ((ContactDetailActivity) getActivity()).menu.findItem(R.id.favorite).setIcon(icon);
-
+                ((ContactDetailActivity) getActivity()).menu.findItem(R.id.favorite).setIcon(getAppropriateStarIcon(jsonContactDetails));
                 rootView.findViewById(R.id.progressBar).setVisibility(View.GONE);
                 ((ContactDetailActivity) getActivity()).getSupportActionBar().show();
                 rootView.findViewById(R.id.contactDetails).setVisibility(View.VISIBLE);
@@ -218,6 +203,25 @@ public class ContactDetailFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+
+        private Drawable getAppropriateStarIcon(JSONObject jsonContactDetails) throws JSONException {
+            // Resources.getDrawable(int) is deprecated in API 22. The most reliable way to obtain drawables is now Context.getDrawable(int).
+            Drawable icon;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+                if (jsonContactDetails.getBoolean("favorite")) {
+                    icon = getResources().getDrawable(R.mipmap.ic_star_pressed);
+                } else {
+                    icon = getResources().getDrawable(R.mipmap.ic_star_normal);
+                }
+            } else {
+                if (jsonContactDetails.getBoolean("favorite")) {
+                    icon = getActivity().getDrawable(R.mipmap.ic_star_pressed);
+                } else {
+                    icon = getActivity().getDrawable(R.mipmap.ic_star_normal);
+                }
+            }
+            return icon;
         }
 
     }

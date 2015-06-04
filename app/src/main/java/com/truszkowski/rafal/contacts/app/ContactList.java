@@ -8,25 +8,22 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- * <p/>
- * TODO: Replace all uses of this class before publishing your app.
+ * The class responsible for holding the list fo Contact objects
  */
 public class ContactList {
 
     /**
-     * An array of sample (dummy) items.
+     * An array of Contact objects.
      */
     public static List<Contact> LIST = new ArrayList<Contact>();
 
     /**
-     * A map of sample (dummy) items, by ID.
+     * A map of Contact objects, by contact name.
      */
     public static Map<String, Contact> MAP = new HashMap<String, Contact>();
 
     /**
-     * A dummy item representing a piece of content.
+     * An item representing a contact.
      */
     public static class Contact {
         String name;

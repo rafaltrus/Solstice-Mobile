@@ -17,11 +17,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- * A list fragment representing a list of Contacts. This fragment
- * also supports tablet devices by allowing list items to be given an
- * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link ContactDetailFragment}.
- * <p/>
+ * A list fragment representing a list of Contacts.
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
@@ -29,11 +25,6 @@ public class ContactListFragment extends ListFragment {
 
     public static final String SOLSTICE_CONTACTS_JSON_URL = "https://solstice.applauncher.com/external/contacts.json";
 
-    /**
-     * The serialization (saved instance state) Bundle key representing the
-     * activated item position. Only used on tablets.
-     */
-    private static final String STATE_ACTIVATED_POSITION = "activated_position";
     /**
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
@@ -48,10 +39,6 @@ public class ContactListFragment extends ListFragment {
      * clicks.
      */
     private Callbacks mCallbacks = sDummyCallbacks;
-    /**
-     * The current activated item position. Only used on tablets.
-     */
-    private int mActivatedPosition = ListView.INVALID_POSITION;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -63,21 +50,10 @@ public class ContactListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // clear the list of contacts every time the fragment is created and refetch the data from server.
+        // clear the list of contacts every time the fragment is created and re-fetch the data from server.
         ContactList.LIST.clear();
         ContactList.MAP.clear();
         new GetContacts().execute();
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        // Restore the previously serialized activated item position.
-        if (savedInstanceState != null
-                && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
-            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
-        }
     }
 
     @Override
@@ -109,37 +85,6 @@ public class ContactListFragment extends ListFragment {
         mCallbacks.onItemSelected(ContactList.LIST.get(position).name);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (mActivatedPosition != ListView.INVALID_POSITION) {
-            // Serialize and persist the activated item position.
-            outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
-        }
-    }
-
-    /**
-     * Turns on activate-on-click mode. When this mode is on, list items will be
-     * given the 'activated' state when touched.
-     */
-    public void setActivateOnItemClick(boolean activateOnItemClick) {
-        // When setting CHOICE_MODE_SINGLE, ListView will automatically
-        // give items the 'activated' state when touched.
-        getListView().setChoiceMode(activateOnItemClick
-                ? ListView.CHOICE_MODE_SINGLE
-                : ListView.CHOICE_MODE_NONE);
-    }
-
-    private void setActivatedPosition(int position) {
-        if (position == ListView.INVALID_POSITION) {
-            getListView().setItemChecked(mActivatedPosition, false);
-        } else {
-            getListView().setItemChecked(position, true);
-        }
-
-        mActivatedPosition = position;
-    }
-
     /**
      * A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activities to be notified of item
@@ -152,8 +97,10 @@ public class ContactListFragment extends ListFragment {
         void onItemSelected(String id);
     }
 
+    /**
+     * An asynchronous task that downloads and processes the JSON file with contact information.
+     */
     class GetContacts extends AsyncTask<Void, Void, JSONArray> {
-
         @Override
         protected JSONArray doInBackground(Void... voids) {
             // AndroidHttpClient class is deprecated in API level 22. It is advised to use URLConnection instead.
@@ -225,6 +172,7 @@ public class ContactListFragment extends ListFragment {
                 }
             }
 
+            // set the list of contacts to be displayed in the appropriate view
             setListAdapter(new ArrayAdapter<ContactList.Contact>(
                     getActivity(),
                     android.R.layout.simple_list_item_activated_1,

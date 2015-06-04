@@ -15,11 +15,7 @@ import android.widget.Toast;
 
 
 /**
- * An activity representing a single Contact detail screen. This
- * activity is only used on handset devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a {@link ContactListActivity}.
- * <p/>
+ * An activity representing a single Contact detail screen.
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link ContactDetailFragment}.
  */
@@ -38,15 +34,6 @@ public class ContactDetailActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
@@ -75,60 +62,73 @@ public class ContactDetailActivity extends AppCompatActivity {
             NavUtils.navigateUpTo(this, new Intent(this, ContactListActivity.class));
             return true;
         } else if (id == R.id.favorite) {
+            // toggle the icon
             isStarMenuChecked = !item.isChecked();
-            // Resources.getDrawable(int) is deprecated in API 22. The most reliable way to obtain drawables is now Context.getDrawable(int).
-            Drawable icon;
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
-                if (isStarMenuChecked) {
-                    icon = getResources().getDrawable(R.mipmap.ic_star_pressed);
-                } else {
-                    icon = getResources().getDrawable(R.mipmap.ic_star_normal);
-                }
-            } else {
-                if (isStarMenuChecked) {
-                    icon = this.getDrawable(R.mipmap.ic_star_pressed);
-                } else {
-                    icon = this.getDrawable(R.mipmap.ic_star_normal);
-                }
-            }
-
-            item.setIcon(icon);
-
+            item.setIcon(getAppropriateStarIcon());
             item.setChecked(isStarMenuChecked);
             return true;
         } else if (id == R.id.edit) {
+            // toggle the icon
             isCurrentlyEditingDetails = !item.isChecked();
-            Drawable icon;
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
-                if (isCurrentlyEditingDetails) {
-                    icon = getResources().getDrawable(R.mipmap.ic_save);
-                    enableEditTextFields(true);
-                    Toast.makeText(getApplicationContext(), "After you edit the information, click the check mark to save.",
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    icon = getResources().getDrawable(R.mipmap.ic_menu_edit);
-                    enableEditTextFields(false);
-                }
-            } else {
-                if (isCurrentlyEditingDetails) {
-                    icon = this.getDrawable(R.mipmap.ic_save);
-                    enableEditTextFields(true);
-                    Toast.makeText(getApplicationContext(), "After you edit the information, click the check mark to save.",
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    icon = this.getDrawable(R.mipmap.ic_menu_edit);
-                    enableEditTextFields(false);
-                }
-            }
-
-            item.setIcon(icon);
+            item.setIcon(getAppropriateEditIcon());
             item.setChecked(isCurrentlyEditingDetails);
         }
-
         return super.onOptionsItemSelected(item);
 
     }
 
+    private Drawable getAppropriateEditIcon() {
+        Drawable icon;
+        // Resources.getDrawable(int) is deprecated in API 22. The most reliable way to obtain drawables is now Context.getDrawable(int).
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (isCurrentlyEditingDetails) {
+                icon = getResources().getDrawable(R.mipmap.ic_save);
+                enableEditTextFields(true);
+                Toast.makeText(getApplicationContext(), "After you edit the information, click the check mark to save.",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                icon = getResources().getDrawable(R.mipmap.ic_menu_edit);
+                enableEditTextFields(false);
+            }
+        } else {
+            if (isCurrentlyEditingDetails) {
+                icon = this.getDrawable(R.mipmap.ic_save);
+                enableEditTextFields(true);
+                Toast.makeText(getApplicationContext(), "After you edit the information, click the check mark to save.",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                icon = this.getDrawable(R.mipmap.ic_menu_edit);
+                enableEditTextFields(false);
+            }
+        }
+        return icon;
+    }
+
+    private Drawable getAppropriateStarIcon() {
+        Drawable icon;
+        // Resources.getDrawable(int) is deprecated in API 22. The most reliable way to obtain drawables is now Context.getDrawable(int).
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (isStarMenuChecked) {
+                icon = getResources().getDrawable(R.mipmap.ic_star_pressed);
+            } else {
+                icon = getResources().getDrawable(R.mipmap.ic_star_normal);
+            }
+        } else {
+            if (isStarMenuChecked) {
+                icon = this.getDrawable(R.mipmap.ic_star_pressed);
+            } else {
+                icon = this.getDrawable(R.mipmap.ic_star_normal);
+            }
+        }
+        return icon;
+    }
+
+    /**
+     * The menu option menu allows editing the contact entries.
+     * This function enables or disables the editing ability depending on the state.
+     *
+     * @param enableFields - whether or not to enable the EditText fields
+     */
     private void enableEditTextFields(boolean enableFields) {
         findViewById(R.id.name).setEnabled(enableFields);
         findViewById(R.id.company).setEnabled(enableFields);
